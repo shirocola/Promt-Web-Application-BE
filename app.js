@@ -53,11 +53,13 @@ app.use('*', (req, res) => {
   });
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-  console.log(`Health check: http://localhost:${PORT}/health`);
-  console.log(`Generate capcode: http://localhost:${PORT}/api/capcode/generate`);
-});
+// Start server only if this file is run directly
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+    console.log(`Health check: http://localhost:${PORT}/health`);
+    console.log(`Generate capcode: http://localhost:${PORT}/api/capcode/generate`);
+  });
+}
 
 module.exports = app;
