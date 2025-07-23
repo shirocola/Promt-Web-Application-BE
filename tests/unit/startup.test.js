@@ -73,4 +73,22 @@ describe('App Server Startup Logic', () => {
     // Test environment
     expect(process.env.NODE_ENV).toBe('test');
   });
+
+  test('should cover server startup callback function', () => {
+    // Import the app module to get the exported startupCallback
+    const app = require('../../app');
+    
+    // Mock console.log to capture startup messages
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
+    
+    // Call the exported startup callback function
+    app.startupCallback();
+    
+    // Verify the messages were logged
+    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('Server is running on port'));
+    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('Health check: http://localhost:'));
+    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('Generate capcode: http://localhost:'));
+    
+    consoleSpy.mockRestore();
+  });
 });
